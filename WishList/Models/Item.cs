@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace WishList.Models
 {
@@ -12,6 +11,5 @@ namespace WishList.Models
         public string Description { get; set; }
 
         public virtual ApplicationUser User { get; set; }
-        public virtual ICollection<Item> Items { get; set; }
     }
 }
