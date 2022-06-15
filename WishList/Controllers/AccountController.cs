@@ -73,7 +73,7 @@ namespace WishList.Controllers
         {
             if(!ModelState.IsValid)
             {
-                return View();
+                return View(model);
             }
 
             var result = _signInManager.PasswordSignInAsync(
