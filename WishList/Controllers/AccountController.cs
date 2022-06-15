@@ -77,7 +77,7 @@ namespace WishList.Controllers
             }
 
             var result = _signInManager.PasswordSignInAsync(
-                new ApplicationUser() { Email = model.Email, UserName = model.Email }, model.Password, true, false).Result;
+                new ApplicationUser() { Email = model.Email, UserName = model.Email }, model.Password, false, false).Result;
 
             if (!result.Succeeded)
             {
