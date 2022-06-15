@@ -39,17 +39,19 @@ namespace WishList.Controllers
                 var result = await _userManager.CreateAsync(new ApplicationUser
                 {
                     UserName = model.Email,
-                    Email = model.Email,
-                    PasswordHash = model.Password,
-                });
+                    Email = model.Email
+                }, model.Password);
 
                 if (!result.Succeeded)
                 {
-                    ModelState.AddModelError("Password", "Invalid Password");
-                    return View("Register", model);
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError("Password", error.Description);
+                    }
+                    return View(model);
                 }
 
-                return RedirectToAction("HomeController.Index");
+                return RedirectToAction("Index", "Home");
             }
             else
             {
