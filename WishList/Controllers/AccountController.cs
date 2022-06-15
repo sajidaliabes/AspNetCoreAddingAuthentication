@@ -23,40 +23,40 @@ namespace WishList.Controllers
         }
 
 
-        [AllowAnonymous]
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
-            return View("Register");
+            return View();
         }
 
-        [AllowAnonymous]
         [HttpPost]
+        [AllowAnonymous]
         public IActionResult Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var result = _userManager.CreateAsync(new ApplicationUser
-                {
-                    UserName = model.Email,
-                    Email = model.Email
-                }, model.Password).Result;
+                return View(model);
+            }
 
-                if (!result.Succeeded)
+            var result = _userManager.CreateAsync(new ApplicationUser
+            {
+                UserName = model.Email,
+                Email = model.Email
+            }, model.Password).Result;
+
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
                 {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("Password", error.Description);
-                    }
-                    return View(model);
+                    ModelState.AddModelError("Password", error.Description);
                 }
+                return View(model);
+            }
 
-                return RedirectToAction("Index", "Home");
-            }
-            else
-            {
-                return View("Register");
-            }
+            return RedirectToAction("Index", "Home");
+
         }
     }
 }
