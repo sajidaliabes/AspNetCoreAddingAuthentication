@@ -32,15 +32,15 @@ namespace WishList.Controllers
 
         [AllowAnonymous]
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public IActionResult Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await _userManager.CreateAsync(new ApplicationUser
+                var result = _userManager.CreateAsync(new ApplicationUser
                 {
                     UserName = model.Email,
                     Email = model.Email
-                }, model.Password);
+                }, model.Password).Result;
 
                 if (!result.Succeeded)
                 {
