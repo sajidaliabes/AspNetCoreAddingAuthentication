@@ -16,7 +16,8 @@ namespace WishList.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public AccountController(UserManager<ApplicationUser> userManager, 
+            SignInManager<ApplicationUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -67,7 +68,8 @@ namespace WishList.Controllers
             return View();
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public IActionResult Login(LoginViewModel model)
         {
@@ -76,7 +78,7 @@ namespace WishList.Controllers
                 return View(model);
             }
 
-            var result = _signInManager.PasswordSignInAsync(model.Email, model.Email, false, false).Result;
+            var result = _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false).Result;
 
             if (!result.Succeeded)
             {
@@ -88,7 +90,8 @@ namespace WishList.Controllers
             return RedirectToAction("Index", "Item");
         }
 
-        [HttpPost, ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         [AllowAnonymous]
         public IActionResult Logout()
         {
